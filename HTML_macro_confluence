@@ -1,0 +1,20 @@
+<div id="s3-buckets-root">Loading buckets…</div>
+<script>
+(async () => {
+  const API = "https://yl1ycfxnbb.execute-api.us-east-1.amazonaws.com/default/list-buckets-fast"; 
+  const root = document.getElementById("s3-buckets-root");
+  try {
+    const res = await fetch(API);
+    const data = await res.json();
+    let html = `<table border="1" cellpadding="6" style="border-collapse:collapse;">
+                  <tr><th>Name of Bucket</th><th>Owner</th></tr>`;
+    data.buckets.forEach(b => {
+      html += `<tr><td>${b.name}</td><td>${b.owner}</td></tr>`;
+    });
+    html += `</table>`;
+    root.innerHTML = html;
+  } catch (e) {
+    root.innerHTML = "Error loading buckets.";
+  }
+})();
+</script>
